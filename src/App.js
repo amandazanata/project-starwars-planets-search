@@ -5,6 +5,7 @@ function App() {
   return (
     <span>Hello, App!</span>
   );
+  // bora começar o projeto
 }
 
 export default App;
