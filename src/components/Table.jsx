@@ -6,7 +6,7 @@ import { useDataFetch } from '../hooks/useDataFetch';
 function Table() {
   const { planetsApi, dataFilter, atlData } = useContext(StarContext);
 
-  useDataFetch(fetchData, planetsApi); // hook para trazer a api corretamente
+  useDataFetch(fetchData, planetsApi); // hook para trazer a api corretamente com o useEffect
   useDataFetch(fetchData, atlData);
 
   return (
