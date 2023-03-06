@@ -21,12 +21,35 @@ function StarProvider({ children }) {
     setDataFilter(array);
   };
 
+  const filterProvNumbers = ({ column, columnFilter, value }) => {
+    switch (columnFilter) {
+    case 'maior que':
+      setDataFilter(
+        dataFilter.filter((planet) => Number(planet[column]) > Number(value)),
+      );
+      break;
+    case 'menor que':
+      setDataFilter(
+        dataFilter.filter((planet) => Number(planet[column]) < Number(value)),
+      );
+      break;
+    case 'igual a':
+      setDataFilter(
+        dataFilter.filter((planet) => Number(planet[column]) === Number(value)),
+      );
+      break;
+    default:
+      break;
+    }
+  };
+
   const contextValue = {
     data,
     planetsApi,
     dataFilter,
     atlData,
     filtra,
+    filterProvNumbers,
   };
 
   return (
