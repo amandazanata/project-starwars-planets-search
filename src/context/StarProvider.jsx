@@ -4,26 +4,26 @@ import StarContext from './StarContext';
 
 function StarProvider({ children }) {
 /*   console.log(children); */
-  const [planets, setPlanets] = useState([]);
+  const [planetsFetch, setPlanetsFetch] = useState([]);
   const [filtre, setFiltre] = useState([]);
 
-  const fetchData = async (url) => {
+  const fetchData = async (url) => { // mentoria Thiago Quadros - 28/02/2023
     const results = await fetch(url);
     const data = await results.json();
     const retorno = data.results;
     retorno.filter((planet) => delete planet.residents);
-    setPlanets(data.results);
+    setPlanetsFetch(data.results);
     setFiltre(data.results);
   };
 
-  useEffect(() => {
+  useEffect(() => { // mentoria Thiago Quadros - 28/02/2023
     const url = 'https://swapi.dev/api/planets';
     fetchData(url);
   }, []);
 
   const contextValue = useMemo(() => ({
-    planets, setPlanets, filtre, setFiltre,
-  }), [planets, filtre]);
+    planetsFetch, setPlanetsFetch, filtre, setFiltre,
+  }), [planetsFetch, filtre]);
 
   return (
     <StarContext.Provider value={ contextValue }>

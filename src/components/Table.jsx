@@ -1,9 +1,8 @@
 import React, { useContext, useState } from 'react';
 import StarContext from '../context/StarContext';
-
+// mentoria Thiago Quadros - 28/02/2023
 function Table() {
-  const { planets, setPlanets } = useContext(StarContext);
-  const { filtre } = useContext(StarContext);
+  const { planetsFetch, setPlanetsFetch, filtre } = useContext(StarContext);
 
   const [data, setData] = useState('');
 
@@ -25,25 +24,25 @@ function Table() {
   const handleInput = ({ target }) => {
     setData(target.value);
     if (!data) {
-      setPlanets(planets);
+      setPlanetsFetch(planetsFetch);
     }
   };
 
-  const names = planets.filter(({ name }) => name.includes(data));
+  const names = planetsFetch.filter(({ name }) => name.includes(data)); // pega a key name e desestrutura para filtrar
 
-  const handleFilter = () => { // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/switch
-    setInicialState(planets);
+  const handleFilter = () => {
+    setInicialState(planetsFetch);
     const filterTest = names.filter((element) => {
       switch (genericFilter) {
       case 'maior que':
-        return +(element[column]) > +(filterNumbers); // https://ultimatecourses.com/blog/deprecating-the-switch-statement-for-object-literals
+        return +(element[column]) > +(filterNumbers); // mentoria Thiago Quadros - 28/02/2023
       case 'menor que':
         return +(element[column]) < +(filterNumbers);
       default:
         return +(element[column]) === +(filterNumbers);
       }
     });
-    setPlanets(filterTest);
+    setPlanetsFetch(filterTest);
 
     const list = selectColumn.filter((value) => !column.includes(value));
 
@@ -61,11 +60,11 @@ function Table() {
     if (filterState.length > 1) {
       const firstArray = filterState.filter((value) => value.column !== target.id);
       setFilterState(firstArray);
-      setPlanets(inicialState);
+      setPlanetsFetch(inicialState);
     } else if (filterState) {
       const secondArray = filterState.filter((value) => value.column !== target.id);
       setFilterState(secondArray);
-      setPlanets(filtre);
+      setPlanetsFetch(filtre);
     }
   };
 
@@ -101,7 +100,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {names?.map((planet) => (
+        {names.map((planet) => ( // peguei exemplo no trybewallet
           <tr key={ planet.name }>
             <td>{planet.name}</td>
             <td>{planet.rotation_period}</td>
@@ -129,7 +128,7 @@ function Table() {
           name="column"
           onChange={ ({ target }) => { setColumn(target.value); } }
         >
-          {selectColumn?.map((planet) => (
+          {selectColumn.map((planet) => (
             <option
               value={ planet }
               key={ planet }
@@ -160,13 +159,11 @@ function Table() {
         >
           Filter
         </button>
-        { filterState?.map((filter, index) => (
+        { filterState.map((filter, index) => (
           <div data-testid="filter" key={ index }>
             <span>
               {filter.column}
-              {' '}
               {filter.genericFilter}
-              {' '}
               {filter.filterNumbers}
             </span>
             <button
@@ -181,11 +178,11 @@ function Table() {
         <button
           data-testid="button-remove-filters"
           onClick={ () => {
-            setFilterState([]);
             setColumn('');
             setGenericFilter('');
             setFilterNumbers('');
-            setPlanets(filtre);
+            setFilterState([]);
+            setPlanetsFetch(filtre);
           } }
         >
           Filter Remove
